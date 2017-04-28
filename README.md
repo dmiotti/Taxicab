@@ -1,7 +1,7 @@
 # Taxicab
 
 Calculate Taxicab distance between two cartesian points.
-Exercice found at: http://adventofcode.com/2016/day/1.
+Exercise found at: http://adventofcode.com/2016/day/1.
 
 ## Usage
 
@@ -60,4 +60,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/taxicab](https://hexdocs.pm/taxicab).
-

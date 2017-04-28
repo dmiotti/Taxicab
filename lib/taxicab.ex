@@ -1,7 +1,7 @@
 defmodule Taxicab do
 
   defmodule State do
-    defstruct x: 0, y: 0, direction: :north
+    defstruct direction: :north, moves: [ %{x: 0, y: 0} ]
   end
 
   def init, do: %State{}
@@ -9,7 +9,7 @@ defmodule Taxicab do
   def move(move, steps, state) do
     {new_direction, coef} = next_direction(state.direction, move)
     coord = advance(steps * coef, state)
-    %{state | direction: new_direction, x: coord.x, y: coord.y}
+    %{state | direction: new_direction, moves: state.moves ++ [coord]}
   end
 
   def load(moves, state) do
@@ -23,14 +23,18 @@ defmodule Taxicab do
     |> Enum.reduce(state, fn (x, acc) -> move(elem(x, 0), elem(x, 1), acc) end)
   end
 
-  def distance(state), do: state.x + state.y
+  def distance(state) do
+    move = Enum.at(state.moves, -1)
+    move.x + move.y
+  end
 
   defp advance(value, state) do
+    move = Enum.at state.moves, -1
     case state.direction do
-      :north -> %{x: state.x + value, y: state.y}
-      :south -> %{x: state.x + value, y: state.y}
-      :est   -> %{x: state.x, y: state.y + value}
-      :west  -> %{x: state.x, y: state.y + value}
+      :north -> %{x: move.x + value, y: move.y}
+      :south -> %{x: move.x + value, y: move.y}
+      :est   -> %{x: move.x, y: move.y + value}
+      :west  -> %{x: move.x, y: move.y + value}
     end
   end
 

@@ -23,21 +23,16 @@ defmodule Taxicab do
     end
   end
 
-  defp next_direction(from, :left) do
-    case from do
-      :north -> {:west,  -1}
-      :south -> {:est,   +1}
-      :est   -> {:north, +1}
-      :west  -> {:south, -1}
-    end
-  end
-
-  defp next_direction(from, :right) do
-    case from do
-      :north -> {:est,   +1}
-      :south -> {:west,  -1}
-      :est   -> {:south, -1}
-      :west  -> {:north, +1}
+  defp next_direction(from, handside) do
+    case {from, handside} do
+      {:north, :left } -> {:west,  -1}
+      {:north, :right} -> {:est,   +1}
+      {:south, :left } -> {:est,   +1}
+      {:south, :right} -> {:west,  -1}
+      {:est,   :left } -> {:north, +1}
+      {:est,   :right} -> {:south, -1}
+      {:west,  :left } -> {:south, -1}
+      {:west,  :right} -> {:north, +1}
     end
   end
 end

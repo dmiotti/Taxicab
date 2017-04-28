@@ -17,10 +17,8 @@ defmodule Taxicab do
     |> String.split(",")
     |> Enum.map(fn x -> String.split_at(x, 1) end)
     |> Enum.map(fn x -> case x do
-      {"L", steps} ->
-        {:left, String.to_integer(steps)}
-      {"R", steps} ->
-        {:right, String.to_integer(steps)}
+      {"L", steps} -> {:left, String.to_integer(steps)}
+      {"R", steps} -> {:right, String.to_integer(steps)}
     end end)
     |> Enum.reduce(state, fn (x, acc) -> move(elem(x, 0), elem(x, 1), acc) end)
   end

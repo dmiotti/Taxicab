@@ -8,8 +8,8 @@ defmodule Taxicab do
 
   def init, do: %State{}
 
-  def move(move, steps, state) do
-    {new_direction, coef} = next_direction(state.direction, move)
+  def move(handside, steps, state) do
+    {new_direction, coef} = next_direction(state.direction, handside)
     coord = advance(steps * coef, state)
     %{state | direction: new_direction, positions: state.positions ++ [coord]}
   end

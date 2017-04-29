@@ -1,7 +1,7 @@
 defmodule Taxicab do
 
   defmodule State do
-    defstruct direction: :north, positions: [ %{x: 0, y: 0} ]
+    defstruct direction: :north, positions: [{0, 0}]
   end
 
   # API
@@ -26,19 +26,22 @@ defmodule Taxicab do
   end
 
   def distance(state) do
-    move = Enum.at(state.positions, -1)
-    move.x + move.y
+    pos = Enum.at(state.positions, -1)
+    get_x(pos) + get_y(pos)
   end
 
   # Private Functions
 
+  defp get_x(pos), do: elem(pos, 0)
+  defp get_y(pos), do: elem(pos, 1)
+
   defp advance(value, state) do
     pos = Enum.at state.positions, -1
     case state.direction do
-      :north -> %{x: pos.x + value, y: pos.y}
-      :south -> %{x: pos.x + value, y: pos.y}
-      :est   -> %{x: pos.x, y: pos.y + value}
-      :west  -> %{x: pos.x, y: pos.y + value}
+      :north -> {get_x(pos) + value, get_y(pos)}
+      :south -> {get_x(pos) + value, get_y(pos)}
+      :est   -> {get_x(pos), get_y(pos) + value}
+      :west  -> {get_x(pos), get_y(pos) + value}
     end
   end
 

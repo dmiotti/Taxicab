@@ -25,6 +25,17 @@ defmodule Taxicab do
     |> Enum.reduce(state, fn (x, acc) -> move(elem(x, 0), elem(x, 1), acc) end)
   end
 
+  def visited_positions(state) do
+    state.positions |> Enum.reduce(%{}, fn (pos, acc) ->
+      case Map.has_key?(acc, pos) do
+        true ->
+          Map.update!(acc, pos, &(&1 + 1))
+        false ->
+          Map.put_new(acc, pos, 1)
+      end
+    end)
+  end
+
   def distance(state) do
     pos = Enum.at(state.positions, -1)
     get_x(pos) + get_y(pos)

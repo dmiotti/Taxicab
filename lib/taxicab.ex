@@ -10,8 +10,11 @@ defmodule Taxicab do
 
   def move(handside, steps, state) do
     {new_direction, coef} = next_direction(state.direction, handside)
-    coord = advance(steps * coef, state)
-    %{state | direction: new_direction, positions: state.positions ++ [coord]}
+    new_state = 1..steps |> Enum.reduce(state, fn (_, acc) ->
+      next_pos = advance(coef, acc)
+      %{acc | positions: acc.positions ++ [next_pos]}
+    end)
+    %{new_state | direction: new_direction}
   end
 
   def load(moves, state) do
@@ -26,13 +29,17 @@ defmodule Taxicab do
   end
 
   def visited_positions(state) do
-    state.positions |> Enum.reduce(%{}, fn (pos, acc) ->
+    visited = state.positions |> Enum.reduce(%{}, fn (pos, acc) ->
       case Map.has_key?(acc, pos) do
         true ->
           Map.update!(acc, pos, &(&1 + 1))
         false ->
           Map.put_new(acc, pos, 1)
       end
+    end)
+    state.positions |> Enum.map(fn pos ->
+      {:ok, nb} = Map.fetch(visited, pos)
+      Tuple.append(pos, nb)
     end)
   end
 

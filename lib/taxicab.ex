@@ -38,7 +38,7 @@ defmodule Taxicab do
 
   def distance(state) do
     pos = Enum.at(state.positions, -1)
-    get_x(pos) + get_y(pos)
+    abs(get_x(pos)) + abs(get_y(pos))
   end
 
   # Private Functions
